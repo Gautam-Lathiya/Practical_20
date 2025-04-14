@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Weather Info";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+
+@if (ViewBag.Weather != null)
+{
+    <h4>Weather Data:</h4>
+    <pre>@ViewBag.Weather</pre>
+}
