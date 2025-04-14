@@ -15,7 +15,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        throw new Exception("An error occurred while processing your request. GAUTAM");
+        // Throwing exception for testing Global Exception handling
+        // throw new Exception("An error occurred while processing your request. GAUTAM");
         return View();
     }
 
