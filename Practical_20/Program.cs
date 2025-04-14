@@ -3,6 +3,7 @@ using Practical_20.Data;
 using Practical_20.Middlewares;
 using Practical_20.Repositories;
 using Practical_20.Services;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Register AuditService with Dependency Injection
 builder.Services.AddScoped<IAuditService, AuditService>();
+
+// Configure Serilog for logging
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 
