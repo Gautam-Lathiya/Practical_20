@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Practical_20.Data;
 using Practical_20.Middlewares;
+using Practical_20.Repositories;
+using Practical_20.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Register AuditService with Dependency Injection
+builder.Services.AddScoped<IAuditService, AuditService>();
 
 var app = builder.Build();
 

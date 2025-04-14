@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Audit Log Test";
+}
+
+<h2>Log User Action</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="name">Enter Username:</label>
+        <input type="text" name="name" class="form-control" required />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Create Audit Log</button>
+</form>
