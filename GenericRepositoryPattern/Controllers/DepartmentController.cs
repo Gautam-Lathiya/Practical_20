@@ -16,7 +16,8 @@ namespace GenericRepositoryPattern.Controllers
         // GET: Department/Index
         public async Task<IActionResult> Index()
         {
-            var departments = await _unitOfWork.DepartmentRepository.GetAllAsync();
+            var departmentRepository = _unitOfWork.GetRepository<Department>();
+            var departments = await departmentRepository.GetAllAsync();
             return View(departments);
         }
 
@@ -32,7 +33,8 @@ namespace GenericRepositoryPattern.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _unitOfWork.DepartmentRepository.AddAsync(department);
+                var departmentRepository = _unitOfWork.GetRepository<Department>();
+                await departmentRepository.AddAsync(department);
                 await _unitOfWork.SaveAsync();
                 return RedirectToAction("Index");
             }
@@ -42,7 +44,8 @@ namespace GenericRepositoryPattern.Controllers
         // GET: Department/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var department = await _unitOfWork.DepartmentRepository.GetByIdAsync(id);
+            var departmentRepository = _unitOfWork.GetRepository<Department>();
+            var department = await departmentRepository.GetByIdAsync(id);
             if (department == null)
             {
                 return NotFound();
@@ -61,7 +64,8 @@ namespace GenericRepositoryPattern.Controllers
 
             if (ModelState.IsValid)
             {
-                _unitOfWork.DepartmentRepository.Update(department);
+                var departmentRepository = _unitOfWork.GetRepository<Department>();
+                departmentRepository.Update(department);
                 await _unitOfWork.SaveAsync();
                 return RedirectToAction("Index");
             }
@@ -72,7 +76,8 @@ namespace GenericRepositoryPattern.Controllers
         // GET: Department/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var department = await _unitOfWork.DepartmentRepository.GetByIdAsync(id);
+            var departmentRepository = _unitOfWork.GetRepository<Department>();
+            var department = await departmentRepository.GetByIdAsync(id);
             if (department == null)
             {
                 return NotFound();
@@ -84,10 +89,11 @@ namespace GenericRepositoryPattern.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var department = await _unitOfWork.DepartmentRepository.GetByIdAsync(id);
+            var departmentRepository = _unitOfWork.GetRepository<Department>();
+            var department = await departmentRepository.GetByIdAsync(id);
             if (department != null)
             {
-                _unitOfWork.DepartmentRepository.Delete(department);
+                departmentRepository.Delete(department);
                 await _unitOfWork.SaveAsync();
             }
 

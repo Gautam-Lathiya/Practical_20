@@ -4,8 +4,7 @@ namespace GenericRepositoryPattern.Data.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IGenericRepository<Employee> EmployeeRepository { get; }
-        IGenericRepository<Department> DepartmentRepository { get; }
+        IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class;
         Task<int> SaveAsync();
     }
 }

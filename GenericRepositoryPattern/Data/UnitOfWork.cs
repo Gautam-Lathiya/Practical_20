@@ -6,14 +6,25 @@ namespace GenericRepositoryPattern.Data
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
+        private Dictionary<Type, object> _repositories;
 
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
+            _repositories = new Dictionary<Type, object>();
         }
 
-        public IGenericRepository<Employee> EmployeeRepository => new GenericRepository<Employee>(_context);
-        public IGenericRepository<Department> DepartmentRepository => new GenericRepository<Department>(_context);
+        public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class
+        {
+            if (_repositories.ContainsKey(typeof(TEntity)))
+            {
+                return (IGenericRepository<TEntity>)_repositories[typeof(TEntity)];
+            }
+
+            var repository = new GenericRepository<TEntity>(_context);
+            _repositories.Add(typeof(TEntity), repository);
+            return repository;
+        }
 
         public async Task<int> SaveAsync()
         {

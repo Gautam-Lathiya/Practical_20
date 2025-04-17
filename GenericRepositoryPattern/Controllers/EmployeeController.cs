@@ -16,7 +16,8 @@ namespace GenericRepositoryPattern.Controllers
         // GET: Employee/Index
         public async Task<IActionResult> Index()
         {
-            var employees = await _unitOfWork.EmployeeRepository.GetAllAsync();
+            var employeeRepository = _unitOfWork.GetRepository<Employee>();
+            var employees = await employeeRepository.GetAllAsync();
             return View(employees);
         }
 
@@ -32,7 +33,8 @@ namespace GenericRepositoryPattern.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _unitOfWork.EmployeeRepository.AddAsync(employee);
+                var employeeRepository = _unitOfWork.GetRepository<Employee>();
+                await employeeRepository.AddAsync(employee);
                 await _unitOfWork.SaveAsync();
                 return RedirectToAction("Index");
             }
@@ -42,7 +44,8 @@ namespace GenericRepositoryPattern.Controllers
         // GET: Employee/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var employee = await _unitOfWork.EmployeeRepository.GetByIdAsync(id);
+            var employeeRepository = _unitOfWork.GetRepository<Employee>();
+            var employee = await employeeRepository.GetByIdAsync(id);
             if (employee == null)
             {
                 return NotFound();
@@ -61,7 +64,8 @@ namespace GenericRepositoryPattern.Controllers
 
             if (ModelState.IsValid)
             {
-                _unitOfWork.EmployeeRepository.Update(employee);
+                var employeeRepository = _unitOfWork.GetRepository<Employee>();
+                employeeRepository.Update(employee);
                 await _unitOfWork.SaveAsync();
                 return RedirectToAction("Index");
             }
@@ -72,7 +76,8 @@ namespace GenericRepositoryPattern.Controllers
         // GET: Employee/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var employee = await _unitOfWork.EmployeeRepository.GetByIdAsync(id);
+            var employeeRepository = _unitOfWork.GetRepository<Employee>();
+            var employee = await employeeRepository.GetByIdAsync(id);
             if (employee == null)
             {
                 return NotFound();
@@ -84,10 +89,11 @@ namespace GenericRepositoryPattern.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var employee = await _unitOfWork.EmployeeRepository.GetByIdAsync(id);
+            var employeeRepository = _unitOfWork.GetRepository<Employee>();
+            var employee = await employeeRepository.GetByIdAsync(id);
             if (employee != null)
             {
-                _unitOfWork.EmployeeRepository.Delete(employee);
+                employeeRepository.Delete(employee);
                 await _unitOfWork.SaveAsync();
             }
 
