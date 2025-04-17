@@ -12,6 +12,9 @@ namespace GenericRepositoryPattern.Data
             _context = context;
         }
 
+        public IGenericRepository<Employee> EmployeeRepository => new GenericRepository<Employee>(_context);
+        public IGenericRepository<Department> DepartmentRepository => new GenericRepository<Department>(_context);
+
         public async Task<int> SaveAsync()
         {
             return await _context.SaveChangesAsync();
